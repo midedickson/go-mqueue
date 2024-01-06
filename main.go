@@ -45,6 +45,8 @@ func (mq *MessageQueue) Consume(wg *sync.WaitGroup, result chan<- Message) {
 }
 
 func main() {
+	// plan here is to remove main function and convert to mqueue package
+	// may or may not run on a server.
 	var wg sync.WaitGroup
 	messageQueue := MessageQueue{}
 	result := make(chan Message, 5)
@@ -65,7 +67,7 @@ func main() {
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		for i := 1; i <= 5; i++ {
+		for {
 			wg.Add(1)
 			go messageQueue.Consume(&wg, result)
 			time.Sleep(time.Second)
